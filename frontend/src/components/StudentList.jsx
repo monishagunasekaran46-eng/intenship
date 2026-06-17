@@ -1,94 +1,110 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./studentList.css";
 
 function StudentList() {
-  const [students, setStudents] = useState([]);
-  const [search, setSearch] = useState("");
+const [students, setStudents] = useState([]);
+const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    fetchStudents();
-  }, []);
+const navigate = useNavigate();
 
-  const fetchStudents = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/interns"
-      );
+useEffect(() => {
+fetchStudents();
+}, []);
 
-      const data = await response.json();
-      setStudents(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const fetchStudents = async () => {
+try {
+const response = await fetch(
+"http://localhost:5001/api/interns"
+);
 
-  const filteredStudents = students.filter((student) =>
-    student.full_name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+  const data = await response.json();
+  setStudents(data);
+} catch (error) {
+  console.error(error);
+}
 
-  return (
-    <div className="student-page">
 
-      <div className="top-banner">
-        <h1>AR Infotek</h1>
-        <p>Intern Management System</p>
-      </div>
+};
 
-      <div className="summary-card">
-        <h2>Total Interns</h2>
-        <span>{students.length}</span>
-      </div>
+const openDashboard = (student) => {
+navigate("/dashboard", {
+state: student,
+});
+};
 
-      <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search Intern..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-        />
-      </div>
+const filteredStudents = students.filter((student) =>
+student.full_name
+.toLowerCase()
+.includes(search.toLowerCase())
+);
 
-      <div className="table-card">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>College</th>
-              <th>Degree</th>
-              <th>Branch</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+return ( <div className="student-page">
 
-          <tbody>
-            {filteredStudents.map((student) => (
-              <tr key={student.intern_id}>
-                <td>{student.intern_id}</td>
-                <td>{student.full_name}</td>
-                <td>{student.email}</td>
-                <td>{student.college_name}</td>
-                <td>{student.degree}</td>
-                <td>{student.branch}</td>
 
-                <td>
-                  <span className="status">
-                    {student.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+  <div className="top-banner">
+    <h1>AR Infotek</h1>
+    <p>Intern Management System</p>
+  </div>
 
-    </div>
-  );
+  <div className="summary-card">
+    <h2>Total Interns</h2>
+    <span>{students.length}</span>
+  </div>
+
+  <div className="search-box">
+    <input
+      type="text"
+      placeholder="Search Intern..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  </div>
+
+  <div className="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>College</th>
+          <th>Degree</th>
+          <th>Branch</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredStudents.map((student) => (
+          <tr key={student.intern_id}>
+            <td>{student.intern_id}</td>
+            <td>{student.full_name}</td>
+            <td>{student.email}</td>
+            <td>{student.college_name}</td>
+            <td>{student.degree}</td>
+            <td>{student.branch}</td>
+
+            <td>
+              <button
+                className="status"
+                onClick={() => openDashboard(student)}
+              >
+                {student.status}
+              </button>
+            </td>
+
+          </tr>
+        ))}
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+
+
+);
 }
 
 export default StudentList;

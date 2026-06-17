@@ -1,11 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./internDashboard.css";
 import internData from "../data/internData";
 
 function InternDashboard() {
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const intern = internData.intern;
+  const selectedIntern = location.state;
+
+  const intern = selectedIntern
+    ? {
+        name: selectedIntern.full_name,
+        email: selectedIntern.email,
+        domain: selectedIntern.domain || "Frontend Development",
+        status: selectedIntern.status || "Active",
+      }
+    : internData.intern;
+
   const tasks = internData.tasks;
 
   const tasksAssigned = tasks.length;
@@ -14,12 +24,15 @@ function InternDashboard() {
     (task) => task.progress === 100
   ).length;
 
-  const percentage = Math.round(
-  tasks.reduce(
-    (sum, task) => sum + task.progress,
-    0
-  ) / tasks.length
-);
+  const percentage =
+    tasks.length > 0
+      ? Math.round(
+          tasks.reduce(
+            (sum, task) => sum + task.progress,
+            0
+          ) / tasks.length
+        )
+      : 0;
 
   return (
     <div className="dashboard-container">
@@ -57,6 +70,7 @@ function InternDashboard() {
         <h2>Intern Information</h2>
 
         <div className="details-grid">
+
           <p>
             <strong>Name:</strong> {intern.name}
           </p>
@@ -72,6 +86,7 @@ function InternDashboard() {
           <p>
             <strong>Status:</strong> {intern.status}
           </p>
+
         </div>
       </div>
 
@@ -91,13 +106,6 @@ function InternDashboard() {
           {percentage}% Completed
         </p>
       </div>
-
-      <button
-        className="task-btn"
-        onClick={() => navigate("/tasks")}
-      >
-        View Tasks
-      </button>
 
     </div>
   );

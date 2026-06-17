@@ -22,20 +22,23 @@ function Allocation() {
 
   const [allocated, setAllocated] = useState(false);
 
-  const handleAllocation = () => {
+ const handleAllocation = async () => {
+  const result = await Swal.fire({
+    icon: "success",
+    title: "Internship Allocated",
+    text: `${domain} Internship Allocated Successfully`,
+    confirmButtonColor: "#ff6200",
+    confirmButtonText: "OK",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  });
+
+  if (result.isConfirmed) {
     setAllocated(true);
 
-    Swal.fire({
-      icon: "success",
-      title: "Internship Allocated",
-      text: `${student.fullName} has been assigned to ${domain}`,
-      confirmButtonColor: "#ff6200",
-    });
-
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 2000);
-  };
+    navigate("/dashboard");
+  }
+};
 
   return (
     <div className="allocation-container">

@@ -17,12 +17,7 @@ function Header() {
         {/* Navigation */}
         <nav className="flex items-center gap-6 font-semibold text-gray-700">
 
-          <Link
-            to="/"
-            className="hover:text-blue-700 transition"
-          >
-            Home
-          </Link>
+         
 
           <Link
             to="/"
@@ -45,12 +40,7 @@ function Header() {
             Dashboard
           </Link>
 
-          <Link
-            to="/tasks"
-            className="hover:text-blue-700 transition"
-          >
-            Tasks
-          </Link>
+          
 
           <Link
             to="/status"

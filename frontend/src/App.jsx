@@ -7,7 +7,6 @@ import InternRegistration from "./components/InternRegistration";
 import InternAllocation from "./components/internAllocation";
 import InternDashboard from "./components/InternDashboard";
 import StudentList from "./components/StudentList";
-import TaskPage from "./components/TaskPage";
 import StatusPage from "./components/StatusPage";
 import CompletionPage from "./components/CompletionPage";
 
@@ -48,11 +47,7 @@ function App() {
             element={<StudentList />}
           />
 
-          <Route
-            path="/tasks"
-            element={<TaskPage />}
-          />
-
+          
           <Route
             path="/status"
             element={<StatusPage />}
